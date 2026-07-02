@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NA Studio - Create Cinematic Videos in Your Browser</title>
+    <!-- CSS Dependencies -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- GSAP for Cinematic Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+
+    <!-- SECTION 1: CINEMATIC ENTRANCE SCREEN -->
+    <div id="entrance-container" class="entrance-wrapper">
+        <canvas id="entrance-canvas"></canvas>
+        <div class="entrance-content">
+            <div class="logo-3d-wrapper">
+                <h1 class="logo-text-3d" data-text="A N">A N</h1>
+            </div>
+            <h2 class="creator-title">Ahmed Osama</h2>
+            <p class="cinematic-subtitle">Cinematic Entrance</p>
+            <button id="btn-enter-studio" class="btn-premium-enter">
+                <span>ENTER STUDIO</span>
+                <div class="btn-glow-effect"></div>
+            </button>
+        </div>
+        <div class="bottom-sparks-container">
+            <canvas id="sparks-canvas"></canvas>
+        </div>
+    </div>
+
+    <!-- SECTION 2: CORE DASHBOARD & WORKSPACE -->
+    <div id="app-container" class="app-hidden">
+        <!-- Top Application Header -->
+        <header class="main-header">
+            <div class="header-brand">
+                <div class="brand-logo">NA</div>
+                <div class="brand-meta">
+                    <h1>NA Studio</h1>
+                    <span>Browser Cinematic Engine</span>
+                </div>
+            </div>
+            <nav class="header-navigation">
+                <button id="nav-btn-new" class="nav-link active"><i class="fa-solid fa-plus"></i> New Project</button>
+                <button id="nav-btn-templates" class="nav-link"><i class="fa-solid fa-layer-group"></i> Templates</button>
+                <button id="nav-btn-projects" class="nav-link"><i class="fa-solid fa-folder-open"></i> Saved Projects</button>
+                <button id="nav-btn-settings" class="nav-link"><i class="fa-solid fa-sliders"></i> Settings</button>
+            </nav>
+        </header>
+
+        <!-- Dynamic Content Mount System -->
+        <main class="workspace-mount">
+            
+            <!-- Dashboard View -->
+            <section id="view-dashboard" class="workspace-view">
+                <div class="welcome-hero">
+                    <h2>Create Cinematic Videos <span class="text-gold">In Your Browser</span></h2>
+                    <p>High-performance offline architecture. No rendering servers, no accounts, complete privacy.</p>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <div id="card-new-project" class="action-card premium-card">
+                        <div class="card-icon"><i class="fa-solid fa-film"></i></div>
+                        <h3>New Blank Project</h3>
+                        <p>Start a cinematic production from scratch with custom dimensions.</p>
+                    </div>
+                    <div id="card-browse-templates" class="action-card">
+                        <div class="card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                        <h3>Cinematic Templates</h3>
+                        <p>Deploy from 25 production-ready highly curated style configurations.</p>
+                    </div>
+                </div>
+
+                <div class="recent-section">
+                    <h3 class="section-title"><i class="fa-solid fa-clock-rotate-left"></i> Recent Projects</h3>
+                    <div id="recent-projects-list" class="projects-shelf">
+                        <!-- Dynamic rendering from IndexedDB -->
+                        <div class="empty-shelf-notice">No recent local projects found. Create a new one to begin.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Templates View -->
+            <section id="view-templates" class="workspace-view view-hidden">
+                <h3 class="section-title"><i class="fa-solid fa-layer-group"></i> Production Templates Archetypes</h3>
+                <div id="templates-grid-container" class="templates-matrix">
+                    <!-- Dynamic rendering of the 25 detailed categories -->
+                </div>
+            </section>
+
+            <!-- Editor Studio View -->
+            <section id="view-studio" class="workspace-view view-hidden studio-layout">
+                <!-- Zone 1: Studio Sub-Header Control Bar -->
+                <div class="studio-controls-bar">
+                    <div class="project-title-area">
+                        <span id="studio-active-project-name">Untitled Cinematic Production</span>
+                        <span class="badge-offline"><i class="fa-solid fa-bolt"></i> Local Engine</span>
+                    </div>
+                    <div class="action-pipeline-group">
+                        <button id="studio-btn-undo" class="ctrl-btn" title="Undo"><i class="fa-solid fa-rotate-left"></i></button>
+                        <button id="studio-btn-redo" class="ctrl-btn" title="Redo"><i class="fa-solid fa-rotate-right"></i></button>
+                        <button id="studio-btn-save" class="ctrl-btn btn-highlight" title="Save to Local Storage"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+                        <button id="studio-btn-export-json" class="ctrl-btn" title="Export Project File"><i class="fa-solid fa-file-export"></i> JSON</button>
+                        <button id="studio-btn-export-video" class="ctrl-btn btn-gold" title="Compile Render Engine"><i class="fa-solid fa-clapperboard"></i> Export Video</button>
+                        <button id="studio-btn-close" class="ctrl-btn btn-danger"><i class="fa-solid fa-xmark"></i> Close</button>
+                    </div>
+                </div>
+
+                <div class="studio-workspace-body">
+                    <!-- Zone 2: Assets Media Library (Left) -->
+                    <aside class="studio-sidebar-library">
+                        <div class="library-tabs">
+                            <button class="lib-tab active" data-target="lib-text"><i class="fa-solid fa-font"></i><span class="tab-lbl">Text</span></button>
+                            <button class="lib-tab" data-target="lib-media"><i class="fa-solid fa-images"></i><span class="tab-lbl">Media</span></button>
+                            <button class="lib-tab" data-target="lib-audio"><i class="fa-solid fa-music"></i><span class="tab-lbl">Audio</span></button>
+                            <button class="lib-tab" data-target="lib-effects"><i class="fa-solid fa-wand-magic"></i><span class="tab-lbl">Effects</span></button>
+                        </div>
+                        <div class="library-content-display">
+                            <div id="lib-text" class="lib-pane active">
+                                <h4>Cinematic Typography</h4>
+                                <button id="btn-add-text-header" class="asset-add-trigger high-impact-text">Add Cinematic Title</button>
+                                <button id="btn-add-text-sub" class="asset-add-trigger body-impact-text">Add Subtitle Layer</button>
+                            </div>
+                            <div id="lib-media" class="lib-pane">
+                                <h4>Local Media Core</h4>
+                                <div class="upload-zone-wrapper">
+                                    <input type="file" id="media-file-input" multiple accept="image/*,video/*">
+                                    <label for="media-file-input" class="file-input-label">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                                        <span>Import MP4, WEBM, PNG, JPG</span>
+                                    </label>
+                                </div>
+                                <div id="local-media-pool" class="media-pool-grid"></div>
+                            </div>
+                            <div id="lib-audio" class="lib-pane">
+                                <h4>Audio Tracks Engine</h4>
+                                <div class="upload-zone-wrapper">
+                                    <input type="file" id="audio-file-input" accept="audio/*">
+                                    <label for="audio-file-input" class="file-input-label">
+                                        <i class="fa-solid fa-file-audio"></i>
+                                        <span>Import MP3, WAV, OGG</span>
+                                    </label>
+                                </div>
+                                <div id="local-audio-pool" class="audio-pool-list"></div>
+                            </div>
+                            <div id="lib-effects" class="lib-pane">
+                                <h4>Atmospheric Overlays</h4>
+                                <div class="effects-selection-list">
+                                    <div class="fx-item" data-fx="none"><i class="fa-solid fa-ban"></i> No Global Filter</div>
+                                    <div class="fx-item" data-fx="film-grain"><i class="fa-solid fa-film"></i> 35mm Film Grain</div>
+                                    <div class="fx-item" data-fx="lens-flare"><i class="fa-solid fa-sun"></i> Anamorphic Lens Flare</div>
+                                    <div class="fx-item" data-fx="cosmic-glow"><i class="fa-solid fa-shuttle-space"></i> Cosmic Glow Aura</div>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <!-- Zone 3: Live Preview Canvas Component (Center) -->
+                    <section class="studio-preview-hub">
+                        <div class="canvas-viewport-wrapper">
+                            <canvas id="main-studio-renderer"></canvas>
+                        </div>
+                        <div class="canvas-playback-controls">
+                            <span id="playback-time-display" class="mono-timer">00:00.00 / 00:10.00</span>
+                            <div class="playback-btn-group">
+                                <button id="btn-playback-rw" class="p-ctrl"><i class="fa-solid fa-backward"></i></button>
+                                <button id="btn-playback-toggle" class="p-ctrl play-main"><i class="fa-solid fa-play"></i></button>
+                                <button id="btn-playback-ff" class="p-ctrl"><i class="fa-solid fa-forward"></i></button>
+                            </div>
+                            <button id="btn-toggle-loop" class="p-ctrl" title="Toggle Playback Loop"><i class="fa-solid fa-repeat"></i></button>
+                        </div>
+                    </section>
+
+                    <!-- Zone 4: Micro-Property Transform Inspector (Right) -->
+                    <aside class="studio-sidebar-properties">
+                        <div class="properties-header">
+                            <h3>Inspector</h3>
+                            <span id="inspector-selected-target-lbl">No Layer Selected</span>
+                        </div>
+                        <div id="inspector-empty-state" class="inspector-panel-notice">
+                            <i class="fa-solid fa-circle-info"></i> Select any track element on the timeline to inspect parameters.
+                        </div>
+                        
+                        <!-- Transform Config Pane -->
+                        <div id="inspector-controls-wrapper" class="inspector-content-pane pane-hidden">
+                            <!-- Typography Controls -->
+                            <div id="prop-group-text" class="property-group">
+                                <label>Text Value</label>
+                                <input type="text" id="prop-input-text-val" class="prop-field">
+                                
+                                <label>Font Family</label>
+                                <select id="prop-input-font" class="prop-field">
+                                    <option value="Inter">Inter (Minimal Pro)</option>
+                                    <option value="Cinzel">Cinzel (Cinematic Royal)</option>
+                                    <option value="monospace">Monospace Code</option>
+                                    <option value="serif">Classic Serif</option>
+                                </select>
+
+                                <label>Font Color</label>
+                                <input type="color" id="prop-input-color" class="prop-field-color">
+                                
+                                <label>Font Size (<span id="lbl-val-size">40</span>px)</label>
+                                <input type="range" id="prop-input-size" min="10" max="200" step="1">
+                            </div>
+
+                            <!-- Media Controls -->
+                            <div id="prop-group-media" class="property-group">
+                                <label>Scale Factor (<span id="lbl-val-scale">100</span>%)</label>
+                                <input type="range" id="prop-input-scale" min="10" max="300" step="1">
+
+                                <label>Opacity (<span id="lbl-val-opacity">100</span>%)</label>
+                                <input type="range" id="prop-input-opacity" min="0" max="100" step="1">
+
+                                <label>Rotation Rotation (<span id="lbl-val-rotation">0</span>°)</label>
+                                <input type="range" id="prop-input-rotation" min="0" max="360" step="1">
+                            </div>
+
+                            <!-- Audio Controls -->
+                            <div id="prop-group-audio" class="property-group">
+                                <label>Track Gain Audio (<span id="lbl-val-volume">100</span>%)</label>
+                                <input type="range" id="prop-input-volume" min="0" max="100" step="1">
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+
+                <!-- Zone 5: Multi-Layer Timeline Engine (Bottom) -->
+                <footer class="studio-timeline-workspace">
+                    <div class="timeline-ruler-track" id="timeline-ruler-mount">
+                        <div class="ruler-time-pointer" id="timeline-cursor-playhead"></div>
+                    </div>
+                    <div class="timeline-layers-container" id="timeline-tracks-stack">
+                        <!-- Tracks dynamically injected here -->
+                    </div>
+                </footer>
+            </section>
+
+            <!-- Global Configurations View -->
+            <section id="view-settings" class="workspace-view view-hidden">
+                <div class="settings-container-box">
+                    <h3><i class="fa-solid fa-sliders"></i> System Diagnostics & Preferences</h3>
+                    <div class="setting-row">
+                        <label>Preview Rendering Resolution Quality</label>
+                        <select id="setting-preview-res" class="prop-field">
+                            <option value="1">100% Native Resolution Pipeline</option>
+                            <option value="0.5">50% Proxy Pipeline (High Performance Mode)</option>
+                        </select>
+                    </div>
+                    <div class="setting-row">
+                        <label>Application Layout Core</label>
+                        <select class="prop-field" disabled>
+                            <option>Royal Gold Dark Space (#050505 / #0B0B0B)</option>
+                        </select>
+                    </div>
+                    <div class="setting-row">
+                        <label>Auto-Save Local Storage Engine</label>
+                        <select class="prop-field">
+                            <option value="true">Active background auto-commit to IndexedDB</option>
+                            <option value="false">Manual saves only</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- INITIALIZATION INJECTION -->
+    <script id="templates-registry-payload" type="application/json">
+        [
+            {"id":"t-birthday","name":"Royal Birthday Accent","cat":"Birthday","duration":10,"bg":"#0b0404","text":"Happy Celestial Birthday","fx":"cosmic-glow"},
+            {"id":"t-wedding","name":"Ethereal Wedding Silk","cat":"Wedding","duration":12,"bg":"#0c0b0a","text":"The Union Eternal","fx":"none"},
+            {"id":"t-love","name":"Infinite Devotion Frame","cat":"Love","duration":8,"bg":"#0f0508","text":"Timeless Connection","fx":"lens-flare"},
+            {"id":"t-graduation","name":"Alumni Honor Banner","cat":"Graduation","duration":10,"bg":"#03090e","text":"Class of Ultimate Excellence","fx":"film-grain"},
+            {"id":"t-business","name":"Enterprise Core Strategy","cat":"Business","duration":15,"bg":"#050505","text":"Strategic Advancements","fx":"none"},
+            {"id":"t-invitation","name":"Elite Gala Event Notice","cat":"Invitation","duration":9,"bg":"#0d0c07","text":"You Are Cordially Invited","fx":"lens-flare"},
+            {"id":"t-ramadan","name":"Sacred Crescent Moon Flare","cat":"Ramadan","duration":12,"bg":"#03070b","text":"Ramadan Kareem Mubarak","fx":"cosmic-glow"},
+            {"id":"t-eid","name":"Festive Light Array","cat":"Eid","duration":10,"bg":"#040a08","text":"Eid Mubarak Festivities","fx":"cosmic-glow"},
+            {"id":"t-kids","name":"Playful Dimension Matrix","cat":"Kids","duration":7,"bg":"#0e0d02","text":"The Imaginarium","fx":"none"},
+            {"id":"t-gaming","name":"Cyber Horizon Tournament","cat":"Gaming","duration":11,"bg":"#07020e","text":"Matchpoint Champions","fx":"lens-flare"},
+            {"id":"t-luxury","name":"Gilded Gold Minimalist Art","cat":"Luxury","duration":14,"bg":"#020202","text":"The Standard of Luxury","fx":"film-grain"},
+            {"id":"t-minimal","name":"Absolute Structural Void","cat":"Minimal","duration":6,"bg":"#080808","text":"Pure Form","fx":"none"},
+            {"id":"t-dark","name":"Deep Onyx Submersion","cat":"Dark","duration":13,"bg":"#010101","text":"Into the Shadows","fx":"film-grain"},
+            {"id":"t-neon","name":"Electric Gas Discharge","cat":"Neon","duration":8,"bg":"#020909","text":"High Voltage Cyberpunk","fx":"lens-flare"},
+            {"id":"t-gold","name":"24 Karat Aurum Fluid","cat":"Gold","duration":15,"bg":"#060502","text":"The Gilded Dynasty","fx":"cosmic-glow"},
+            {"id":"t-space","name":"Interstellar Event Horizon","cat":"Space","duration":18,"bg":"#010206","text":"Deep Void Navigation","fx":"lens-flare"},
+            {"id":"t-travel","name":"Nomadic Expedition Record","cat":"Travel","duration":12,"bg":"#050807","text":"The Uncharted Paths","fx":"film-grain"},
+            {"id":"t-portfolio","name":"Curated Creative Catalog","cat":"Portfolio","duration":10,"bg":"#060606","text":"The Retrospective Works","fx":"none"},
+            {"id":"t-product-promo","name":"Next-Gen Device Reveal","cat":"Product Promo","duration":11,"bg":"#040404","text":"Engineering Perfection","fx":"lens-flare"},
+            {"id":"t-thank-you","name":"Gratitude Outro Scroll","cat":"Thank You","duration":5,"bg":"#070707","text":"Our Sincerest Acknowledgements","fx":"none"}
+        ]
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>
